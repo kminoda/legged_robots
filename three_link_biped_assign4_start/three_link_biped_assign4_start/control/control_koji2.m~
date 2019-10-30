@@ -1,0 +1,23 @@
+function u = control_koji(q, dq)
+% You may call control_hyper_parameters and desired_outputs in this
+% function
+% you don't necessarily need to use all the inputs to this control function
+
+[qd, dqd, ddqd] = getNextDesiredTheta(q, dq, 0.01);
+
+kp = [1, 1, 1; 1, 1, 1; 1, 1, 1];
+kd = [0, 0, 0; 0, 0, 0; 0, 0, 0];
+
+qTemp = ddqd + kd * (dqd - dq) + kp * (qd - q);
+Dq = eval_M(qTemp);
+Tr = eval_C(q, dq) + eval_G(q);
+u = pinv(eval_B) * (Tr + Dq);
+end
+
+
+function [qd, dqd, ddqd] = getNextDesiredQ(dt)
+dqd = [0; 0; 0];
+ddqd = [0; 0; 0];
+qd(2) = 0;
+
+end

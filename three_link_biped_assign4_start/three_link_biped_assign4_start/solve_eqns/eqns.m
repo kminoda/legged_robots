@@ -4,7 +4,7 @@ function dy = eqns(t, y)
 
 q = y(1:3);
 dq = y(4:6);
-u = control(q, dq); % for the moment we set the control outputs to zero
+u = control_koji(q, dq); % for the moment we set the control outputs to zero
 
 M = eval_M(q);
 C = eval_C(q, dq);

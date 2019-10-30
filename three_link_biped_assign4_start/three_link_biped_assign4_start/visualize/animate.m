@@ -6,7 +6,7 @@
 function animate(sln)
 
 figure();
-skip = 5; 
+skip = 1; 
 [~, ~, ~, l1, l2, l3, ~] = set_parameters;
 num_steps = length(sln.Y); %length(sln.Y); % total number of steps the robot has taken (find this from sln)
 r0 = [0; 0];

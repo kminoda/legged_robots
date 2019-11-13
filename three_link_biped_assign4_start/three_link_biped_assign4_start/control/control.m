@@ -5,7 +5,10 @@ function u = control(t, q, dq)
 % you don't necessarily need to use all the inputs to this control function
 
 
-u = control_koji(q, dq);
+%u = control_koji(t, q, dq);
 %u = control_koji2(q, dq);
+u = control_koji3(t, q, dq);
+%u = control_static_control(t, q, dq);
+
 
 end

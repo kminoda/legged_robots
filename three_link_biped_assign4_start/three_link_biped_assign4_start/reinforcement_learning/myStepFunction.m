@@ -1,4 +1,5 @@
 function [NextObs, Reward, IsDone, LoggedSignals] = myStepFunction(Action, LoggedSignals)
+    LoggedSignals.prevAction = Action;
 
     numObs = size(LoggedSignals.State, 1);
     state = reshape(LoggedSignals.State, [numObs, 1]);
@@ -27,23 +28,35 @@ function [NextObs, Reward, IsDone, LoggedSignals] = myStepFunction(Action, Logge
     
     [x_h, z_h, dx_h, ~] = kin_hip(NextObs(1:3), NextObs(4:6));
     [x_swf, z_swf, dx_swf, ~] = kin_swf(NextObs(1:3), NextObs(4:6));
-
-    
-    %% Reward
-    r_zh = -0.04 * (z_h - 0.45)^2;
-    r_dxh = 0.04 * dx_h;
-    r_t = 0.1 * LoggedSignals.T / LoggedSignals.Tf;
-    r_u = -1e-5 * norm(Action)^2;
-    
-    Reward = r_zh + r_dxh + r_t + r_u;
     LoggedSignals.x_swf = LoggedSignals.x0 + x_swf;
-    if (abs(NextObs(4))>pi/2 || abs(NextObs(5))>pi/2)
-        Reward = -0.01;
-    end
+    
+    Reward = getReward2(LoggedSignals);
     
     IsDone = false;
-    if (z_h < 0 || z_swf < -0.2)
+    if (z_h < 0)
+        Reward = -1 * (1 - LoggedSignals.T / LoggedSignals.Tf);
         IsDone = true;
+        disp("Terminating Condition : hip is underground");
+    end
+    if (z_swf < -0.2)
+        Reward = -1 * (1 - LoggedSignals.T / LoggedSignals.Tf);
+        IsDone = true;
+        disp("Terminating Condition : swing foot is underground");
+    end
+    if (abs(NextObs(1))>pi*0.75)
+        Reward = -1 * (1 - LoggedSignals.T / LoggedSignals.Tf);
+        IsDone = true;
+        disp("Terminating Condition : Foot 1 is too high");
+    end
+    if (abs(NextObs(2))>pi*0.75)
+        Reward = -1 * (1 - LoggedSignals.T / LoggedSignals.Tf);
+        IsDone = true;
+        disp("Terminating Condition : Foot 2 is too high");
+    end
+    if (abs(NextObs(3))>pi*0.5)
+        Reward = -1 * (1 - LoggedSignals.T / LoggedSignals.Tf);
+        IsDone = true;
+        disp("Terminating Condition : Torso is too low");
     end
     
     if (LoggedSignals.T >= LoggedSignals.Tf)

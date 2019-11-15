@@ -9,7 +9,8 @@ function [InitialObservation, LoggedSignals] = myResetFunction()
     
     LoggedSignals.ODEOpts = odeset('Event', @event_func, 'RelTol', 1e-5);
     LoggedSignals.Ts = 0.01;
-    LoggedSignals.Tf = 2;
+    LoggedSignals.Tf = 10;
+    LoggedSignals.prevAction = [0;0];
 
     LoggedSignals.T = 0;
     LoggedSignals.x0 = 0;

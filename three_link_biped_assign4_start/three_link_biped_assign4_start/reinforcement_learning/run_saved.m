@@ -1,4 +1,4 @@
-name = 'Agent1279';
+name = 'Agent1944';
 load(name);
 numObs = 7;
 numAct = 2;

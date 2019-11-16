@@ -13,6 +13,7 @@ h = 0.001; % time step
 %tmax = 2; % max time that we allow for a single step
 y0 = [q0; dq0];
 t0 = 0;
+tspan = 0:h:tmax;% from 0 to tmax with time step h
 
 x0 = 0;
 %tspan = 0:h:2*h;% from 0 to tmax with time step h
@@ -29,10 +30,10 @@ sln.YE = {};
 numImpact = 0;
 while true
     %tspan = t0:h:tmax+t0;
-    tspan = 0 : h : tmax;
-
+    
     % add noise
     u = u + noise_u * randn(2, 1);
+    tspan
     eqnsControlled = @(t, y) myEqns(t, y, u, noise_q, noise_dq);
     [T, Y, TE, YE] = ode45(eqnsControlled, tspan, y0, opts);% use ode45 to solve the equations of motion (eqns.m)
     %[T, Y, TE, YE] = ode45(func, tspan, y0);% use ode45 to solve the equations of motion (eqns.m)
@@ -53,21 +54,25 @@ while true
         y0 = [q_p; dq_p];
         [x_swf, ~, ~, ~] = kin_swf(q_m, dq_m);
         x0 = x0 + x_swf;
+        t0 = T(end);
         
-        sln.T{numImpact+2} = [0];
-        sln.Y{numImpact+2} = y0';
-        sln.TE{numImpact+2} = [];
-        sln.YE{numImpact+2} = [];
-        sln.X0{numImpact+2} = x0;
+        %sln.T{numImpact+2} = [0];
+        %sln.Y{numImpact+2} = y0';
+        %sln.TE{numImpact+2} = [];
+        %sln.YE{numImpact+2} = [];
+        %sln.X0{numImpact+2} = x0;
     else
         break
     end
-    if T(end) > tmax - h
+    if T(end) >= tmax -h
         disp("T>tmax called");
         break
     end
     tmax = tmax - T(end);
     tmax = tmax - mod(tmax, h);
+    
+    tmax
+    tspan = 0 : h : tmax;
     numImpact = numImpact + 1;
 end
 end

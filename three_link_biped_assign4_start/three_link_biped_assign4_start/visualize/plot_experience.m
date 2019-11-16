@@ -39,24 +39,28 @@ function plot_experience(experience)
     %figure(3)
     plot(q3);
     legend('q1','q2','q3');
+    title('q');
     
     %figure(2)
-    figure(4)
+    figure(2)
     plot(dq1);
-    %hold on
-    figure(5)
+    hold on
     plot(dq2);
-    %hold on
-    figure(6)
+    hold on
     plot(dq3);   
-    %legend('dq1','dq2','dq3');
+    legend('dq1','dq2','dq3');
     
     
     %% plot u
-    figure(7)
+    figure(3)
     plot(u1);
     hold on
     plot(u2);
     legend('u1','u2');
-
+    title('u');
+    
+    %% plot q1-q2
+    figure(4)
+    plot(q1, q2)
+    title('q1-q2');
 end

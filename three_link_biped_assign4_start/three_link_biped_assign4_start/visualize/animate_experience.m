@@ -12,23 +12,20 @@ prevPivotFoot = 0;
 num_steps = length(data); %length(sln.Y); % total number of steps the robot has taken (find this from sln)
 r0 = [0; 0];
 tic();
-for i = 1:skip:num_steps-1
-    q = data(1:3, 1, i)%
-    dq = data(4:6, 1, i)%
+for i = 1:skip:(num_steps-1)
+    if data(7, 1, i)~=prevPivotFoot
+        prevPivotFoot = data(7, 1, i);
+        [x_swf, ~, ~, ~] = kin_swf(q, dq);
+        r0 = r0 + [x_swf; 0];
+    end
+    q = data(1:3, 1, i);%
+    dq = data(4:6, 1, i);%
     pause(0.002);  % pause for 2 mili-seconds
     % visualize :
     visualize(q, r0);
         
     hold off
     % update r0:
-    if data(7, 1, i)~=prevPivotFoot
-        prevPivotFoot = data(7, 1, i);
-        [x_h, z_h, dx_h, ~] = kin_hip(q, dq);
-        [x_swf, z_swf, dx_swf, ~] = kin_swf(q, dq);
-        dx_h
-        dx_swf
-        r0 = r0 + [x_swf; 0];
-    end
 end
 t_anim = toc();
 

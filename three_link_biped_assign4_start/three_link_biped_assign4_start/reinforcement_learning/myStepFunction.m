@@ -6,7 +6,10 @@ function [NextObs, Reward, IsDone, LoggedSignals] = myStepFunction(Action, Logge
     q0 = state(1:3, :);
     dq0 = state(4:6, :);
     
-    sln = solve_eqns_by_time(q0, dq0, LoggedSignals.Ts, Action);
+    sln = solve_eqns_by_time(q0, dq0, LoggedSignals.Ts, Action, ...
+                             LoggedSignals.noise_u, ...
+                             LoggedSignals.noise_q, ...
+                             LoggedSignals.noise_dq);
     y0 = sln.Y{end}(end, :)';
     if isempty(sln.TE{end})
         LoggedSignals.pivotFoot = mod(size(sln.TE, 2) - 1 + LoggedSignals.pivotFoot, 2);

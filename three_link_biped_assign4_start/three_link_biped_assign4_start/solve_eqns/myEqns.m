@@ -1,9 +1,12 @@
-function dy = eqns(t, y, u)
+function dy = myEqns(t, y, u, noise_q, noise_dq)
 % n this is the dimension of the ODE, note that n is 2*DOF, why? 
 % y1 = q1, y2 = q2, y3 = q3, y4 = dq1, y5 = dq2, y6 = dq3
 
-q = y(1:3);
-dq = y(4:6);
+% if noise
+%q = y(1:3);
+%dq = y(4:6);
+q = y(1:3) + noise_q * randn(3, 1);
+dq = y(4:6) + noise_dq * randn(3, 1);
 
 M = eval_M(q);
 C = eval_C(q, dq);

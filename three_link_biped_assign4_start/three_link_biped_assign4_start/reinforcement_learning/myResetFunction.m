@@ -2,10 +2,12 @@ function [InitialObservation, LoggedSignals] = myResetFunction()
     q0 = [pi/6; -pi/4; 0];
     dq0 = [0; 0; 0];
     LoggedSignals.State = [q0; dq0; 0];
-    %LoggedSignal.State = [q0; dq0];
     InitialObservation = reshape(LoggedSignals.State, [7, 1]);
 
     LoggedSignals.pivotFoot = 0;
+    LoggedSignals.noise_u = 0.5;
+    LoggedSignals.noise_q = 0.01;
+    LoggedSignals.noise_dq = 0.01;
     
     LoggedSignals.ODEOpts = odeset('Event', @event_func, 'RelTol', 1e-5);
     LoggedSignals.Ts = 0.01;

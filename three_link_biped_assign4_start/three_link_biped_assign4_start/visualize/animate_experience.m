@@ -15,17 +15,19 @@ tic();
 for i = 1:skip:num_steps-1
     q = data(1:3, 1, i)%
     dq = data(4:6, 1, i)%
-    pause(0.01);  % pause for 2 mili-seconds
+    pause(0.002);  % pause for 2 mili-seconds
     % visualize :
     visualize(q, r0);
         
     hold off
     % update r0:
     if data(7, 1, i)~=prevPivotFoot
-        disp('changed');
         prevPivotFoot = data(7, 1, i);
-        [x_swf, z_swf, ~, ~] = kin_swf(q, dq);
-        r0 = r0 + [x_swf; z_swf];
+        [x_h, z_h, dx_h, ~] = kin_hip(q, dq);
+        [x_swf, z_swf, dx_swf, ~] = kin_swf(q, dq);
+        dx_h
+        dx_swf
+        r0 = r0 + [x_swf; 0];
     end
 end
 t_anim = toc();

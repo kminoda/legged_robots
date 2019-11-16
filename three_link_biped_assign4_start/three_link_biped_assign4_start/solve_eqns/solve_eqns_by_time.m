@@ -6,7 +6,7 @@
 % number of steps the robot is supposed to take
 % As an example you can use q0 = [pi/6; -pi/3; 0] and dq0 = [0;0;0]. 
 
-function sln = solve_eqns_by_time(q0, dq0, tmax, u)
+function sln = solve_eqns_by_time(q0, dq0, tmax, u, noise_u, noise_q, noise_dq)
 
 % options = ...
 h = 0.001; % time step
@@ -18,7 +18,7 @@ tspan = 0:h:tmax;% from 0 to tmax with time step h
 x0 = 0;
 %tspan = 0:h:2*h;% from 0 to tmax with time step h
 
-opts = odeset('Event', @event_func, 'RelTol', 1e-5);
+opts = odeset('Event', @event_func, 'RelTol', 1e-4);
 
 % we define the solution as a structure to qsimplify the post-analyses and
 % animation, here we intialize it to null. 
@@ -30,7 +30,11 @@ sln.YE = {};
 numImpact = 0;
 while true
     %tspan = t0:h:tmax+t0;
-    eqnsControlled = @(t, y) myEqns(t, y, u);
+    
+    % add noise
+    u = u + noise_u * randn(2, 1);
+    
+    eqnsControlled = @(t, y) myEqns(t, y, u, noise_q, noise_dq);
     [T, Y, TE, YE] = ode45(eqnsControlled, tspan, y0, opts);% use ode45 to solve the equations of motion (eqns.m)
     %[T, Y, TE, YE] = ode45(func, tspan, y0);% use ode45 to solve the equations of motion (eqns.m)
 

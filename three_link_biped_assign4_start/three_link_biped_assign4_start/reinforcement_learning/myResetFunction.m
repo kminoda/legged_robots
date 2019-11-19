@@ -1,7 +1,7 @@
 function [InitialObservation, LoggedSignals] = myResetFunction()
     q0 = [pi/6; -pi/4; 0];
     dq0 = [0; 0; 0];
-    LoggedSignals.State = [q0; dq0; 0; 0; 0];
+    LoggedSignals.State = [q0; dq0; 0.; 0.; 0.];
     InitialObservation = reshape(LoggedSignals.State, [9, 1]);
 
     LoggedSignals.prevPivotFoot = 0;

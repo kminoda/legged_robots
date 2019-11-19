@@ -1,4 +1,7 @@
 function [NextObs, Reward, IsDone, LoggedSignals] = myStepFunction(Action, LoggedSignals)
+    % make action a double to avoid error
+    Action = double(Action);
+    
     numObs = size(LoggedSignals.State, 1);
     state = reshape(LoggedSignals.State, [numObs, 1]);
     q0 = state(1:3, :);
@@ -20,6 +23,7 @@ function [NextObs, Reward, IsDone, LoggedSignals] = myStepFunction(Action, Logge
     
     % update state
     LoggedSignals.State = [y0 ; LoggedSignals.pivotFoot; Action];
+    % LoggedSignals.State = [y0 ; LoggedSignals.pivotFoot];
     NextObs = LoggedSignals.State;    
     
     % update x_swf in LoggedSignals
@@ -27,8 +31,9 @@ function [NextObs, Reward, IsDone, LoggedSignals] = myStepFunction(Action, Logge
     [x_swf, z_swf, ~, ~] = kin_swf(NextObs(1:3), NextObs(4:6));
     LoggedSignals.x_swf = LoggedSignals.x0 + x_swf;
     
-    % calculate reward
-    Reward = getReward3(LoggedSignals, Action);
+    % calculate reward    
+    Reward = getReward2(LoggedSignals);
+    % Reward = getReward3(LoggedSignals, Action);
     LoggedSignals.totalReward = LoggedSignals.totalReward + Reward;
     
     % terminate or not

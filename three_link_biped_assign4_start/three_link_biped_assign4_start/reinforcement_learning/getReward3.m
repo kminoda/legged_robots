@@ -40,13 +40,13 @@ function reward = getReward3(LoggedSignals, Action)
     dActionPrev = LoggedSignals.prevAction - LoggedSignals.prevprevAction;
     dAction = Action - LoggedSignals.prevAction;
     signNotMatching = (dActionPrev .* dAction) < 0;
-    r_penalty4 = -0.1 * sum(signNotMatching);
+    r_penalty4 = -0.01 * sum(signNotMatching);
     
     % penalty for impact
     r_penalty5 = 0;
-    if LoggedSignals.prevPivotFoot == LoggedSignals.pivotFoot
-        r_penalty5 = -0.1;
-    end
+    %if LoggedSignals.prevPivotFoot == LoggedSignals.pivotFoot
+    %    r_penalty5 = -0.03;
+    %end
     
     reward = r_height + r_speed + r_time + r_swf +...
              r_penalty1 + r_penalty2 + r_penalty3 + r_penalty4 + r_penalty5;

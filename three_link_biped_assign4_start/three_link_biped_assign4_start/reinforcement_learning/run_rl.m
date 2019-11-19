@@ -1,6 +1,6 @@
 clear all;
 
-numObs = 7;
+numObs = 9;
 numAct = 2;
 [InitialObservation, LoggedSignals] = myResetFunction();
 env = generateEnv(numObs, numAct);

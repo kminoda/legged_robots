@@ -16,13 +16,16 @@ function [NextObs, Reward, IsDone, LoggedSignals] = myStepFunction(Action, Logge
     LoggedSignals.prevPivotFoot = LoggedSignals.pivotFoot;
     LoggedSignals.pivotFoot = mod(size(sln.TE, 2) - 1 + LoggedSignals.pivotFoot, 2);
     LoggedSignals.x0 = LoggedSignals.x0 + sln.X0{end};
-    LoggedSignals.State = [y0 ; LoggedSignals.pivotFoot];
     LoggedSignals.T = LoggedSignals.T + LoggedSignals.Ts;
+    
+    % update state
+    LoggedSignals.State = [y0 ; LoggedSignals.pivotFoot; Action];
     NextObs = LoggedSignals.State;    
+    
+    % update x_swf in LoggedSignals
     [~, z_h, ~, ~] = kin_hip(NextObs(1:3), NextObs(4:6));
     [x_swf, z_swf, ~, ~] = kin_swf(NextObs(1:3), NextObs(4:6));
     LoggedSignals.x_swf = LoggedSignals.x0 + x_swf;
-    
     
     % calculate reward
     Reward = getReward3(LoggedSignals, Action);

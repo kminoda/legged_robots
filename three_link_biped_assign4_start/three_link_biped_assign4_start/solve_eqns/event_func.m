@@ -10,7 +10,7 @@ dq = y(4:6);
 [~, z_swf, ~, ~] = kin_swf(q, dq);
 
 % you may want to use kin_swf to set the 'value'
-value = z_swf + 1e-3 + 1e-3 * cos(q(2));%
+value = z_swf + 1e-3;%
 isterminal = 1;%
 direction = -1;%
 

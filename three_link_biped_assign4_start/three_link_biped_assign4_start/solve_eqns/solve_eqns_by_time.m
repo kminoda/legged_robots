@@ -63,7 +63,6 @@ while true
         break
     end
     if T(end) > tmax - h
-        disp("T>tmax called");
         break
     end
     tmax = tmax - T(end);

@@ -18,7 +18,8 @@ function [NextObs, Reward, IsDone, LoggedSignals] = myStepFunction(Action, Logge
     LoggedSignals.x0 = LoggedSignals.x0 + sln.X0{end};
     LoggedSignals.State = [y0 ; LoggedSignals.pivotFoot];
     LoggedSignals.T = LoggedSignals.T + LoggedSignals.Ts;
-    NextObs = LoggedSignals.State;    
+    NextObs = LoggedSignals.State;
+    
     [~, z_h, ~, ~] = kin_hip(NextObs(1:3), NextObs(4:6));
     [x_swf, z_swf, ~, ~] = kin_swf(NextObs(1:3), NextObs(4:6));
     LoggedSignals.x_swf = LoggedSignals.x0 + x_swf;
@@ -26,9 +27,8 @@ function [NextObs, Reward, IsDone, LoggedSignals] = myStepFunction(Action, Logge
     
     % calculate reward
     Reward = getReward3(LoggedSignals, Action);
-    LoggedSignals.totalReward = LoggedSignals.totalReward + Reward;
     
-    % terminate or not
+    % 
     IsDone = false;
     if (z_h < 0)
         Reward = -1 * (1 - LoggedSignals.T / LoggedSignals.Tf);
@@ -64,13 +64,4 @@ function [NextObs, Reward, IsDone, LoggedSignals] = myStepFunction(Action, Logge
     LoggedSignals.prevprevAction = LoggedSignals.prevAction;
     LoggedSignals.prevAction = Action;
 
-    % log if terminate
-    if IsDone
-        disp("Total Reward : " + num2str(LoggedSignals.totalReward));
-        disp("Terminate timestep : " + num2str(LoggedSignals.T/LoggedSignals.Ts));
-        disp("=======================");
-        global numSteps;
-        numSteps = numSteps + 1;
-        disp("# Episode : " + num2str(numSteps));
-    end
 end

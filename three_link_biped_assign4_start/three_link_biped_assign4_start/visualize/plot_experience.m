@@ -63,4 +63,22 @@ function plot_experience(experience)
     figure(4)
     plot(q1, q2)
     title('q1-q2');
+    
+    %% plot gait
+    figure(5)
+    pivotFoot = reshape(data(7, 1, :), [N, 1]);
+    for i = 1 : size(pivotFoot, 1)
+        if pivotFoot(i) == 0
+            fill([i-1, i, i, i-1], [0.52, 0.52, 1, 1], 'b');
+            hold on
+        else 
+            fill([i-1, i, i, i-1], [0, 0, 0.48, 0.48], 'b');
+            hold on
+        end
+    end
+    title('gait');
+    axis off
+    text(-size(pivotFoot, 1)/8, 0.75, 'Foot 1');
+    text(-size(pivotFoot, 1)/8, 0.25, 'Foot 2');
+
 end

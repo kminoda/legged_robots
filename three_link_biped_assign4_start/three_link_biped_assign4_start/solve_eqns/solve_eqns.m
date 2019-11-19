@@ -17,7 +17,7 @@ tspan = 0:h:tmax;% from 0 to tmax with time step h
 
 %tspan = 0:h:2*h;% from 0 to tmax with time step h
 
-opts = odeset('Event', @event_func, 'RelTol', 1e-5);
+opts = odeset('Event', @event_func_tianchu, 'RelTol', 1e-5);
 
 % we define the solution as a structure to qsimplify the post-analyses and
 % animation, here we intialize it to null. 

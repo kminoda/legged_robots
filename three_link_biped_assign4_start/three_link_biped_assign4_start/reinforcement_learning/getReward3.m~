@@ -1,4 +1,4 @@
-function reward = getReward2(LoggedSignals)
+function reward = getReward3(LoggedSignals, Action)
     NextObs = LoggedSignals.State;
     
     [x_h, z_h, dx_h, dz_h] = kin_hip(NextObs(1:3), NextObs(4:6));
@@ -36,5 +36,18 @@ function reward = getReward2(LoggedSignals)
         r_penalty3 = 0.2*(exp(dz_h - Hdot)- 1);
     end
     
-    reward = r_height + r_speed + r_time + r_swf + r_penalty1 + r_penalty2 + r_penalty3;
+    % penalty for input contineous
+    dActionPrev = LoggedSignals.prevAction - LoggedSignals.prevprevAction;
+    dAction = Action - LoggedSignals.prevAction;
+    signNotMatching = (dActionPrev .* dAction) < 0;
+    r_penalty4 = -0.1 * sum(signNotMatching);
+    
+    % penalty for switching feet
+    r_penalty5 = 0;
+    if LoggedSignals.prevPivotFoot == LoggedSignals.pivotFoot
+        r_penalty5 = -0.01;
+    r_penalty5 = 
+    
+    reward = r_height + r_speed + r_time + r_swf +...
+             r_penalty1 + r_penalty2 + r_penalty3 + r_penalty4;
 end

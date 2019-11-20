@@ -6,9 +6,9 @@ function [InitialObservation, LoggedSignals] = myResetFunction()
 
     LoggedSignals.prevPivotFoot = 0;
     LoggedSignals.pivotFoot = 0;
-    LoggedSignals.noise_u = 0.0;
-    LoggedSignals.noise_q = 0.0;
-    LoggedSignals.noise_dq = 0.0;
+    LoggedSignals.noise_u = 0.5;
+    LoggedSignals.noise_q = 0.01;
+    LoggedSignals.noise_dq = 0.01;
     
     LoggedSignals.ODEOpts = odeset('Event', @event_func, 'RelTol', 1e-5);
     LoggedSignals.Ts = 0.01;

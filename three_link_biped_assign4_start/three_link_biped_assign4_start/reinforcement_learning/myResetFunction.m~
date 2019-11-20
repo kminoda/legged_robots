@@ -1,6 +1,6 @@
 function [InitialObservation, LoggedSignals] = myResetFunction()
     q2 = 0.5 * randn;
-    q1 = (0.5*rand - 1) * q2 ;
+    q1 = -  ;
     q3 = 0.1 * randn;
     
     q0 = [q1; q2; q3];

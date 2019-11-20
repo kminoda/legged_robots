@@ -1,7 +1,7 @@
 %name = 'savedAgentsSuccess/savedAgents19111501/Agent2160';
-name = 'Agent3225';
+name = 'Agent2817';
 load(name);
-numObs = 7;
+numObs = 9;
 numAct = 2;
 env = generateEnv(numObs, numAct);
 simOptions = rlSimulationOptions('MaxSteps',5000);

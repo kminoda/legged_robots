@@ -8,7 +8,7 @@ function reward = getReward3(LoggedSignals, Action)
     r_height = 0.1*(z_h - 0.3);
     
     % reward for speed of hip with saturation
-    r_speed = 0.02*min(dx_h, 1);
+    r_speed = 0.02*min(dx_h, 2s);
     if (dx_h<0.2)
         r_speed = r_speed - 0.002;
     end
@@ -40,7 +40,7 @@ function reward = getReward3(LoggedSignals, Action)
         dAction = flipud(dAction);
     end
     signNotMatching = (dActionPrev .* dAction) < 0;
-    r_penalty3 = -0.01 * sum(signNotMatching);
+    r_penalty3 = -0.05 * sum(signNotMatching);
     
     % penalty for impact
     r_penalty4 = 0;

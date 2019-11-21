@@ -51,6 +51,9 @@ function reward = getReward3(LoggedSignals, Action)
         r_penalty5 = -0.03;
     end
     
+    % pelanty for CoT
+    r_penalty6 = -1e-4 * norm(Action)^2;
+    
     reward = r_height + r_speed + r_time + r_swf +...
-             r_penalty1 + r_penalty2 + r_penalty3 + r_penalty4 + r_penalty5;
+             r_penalty1 + r_penalty2 + r_penalty3 + r_penalty4 + r_penalty5 + r_penalty6;
 end

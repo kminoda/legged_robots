@@ -9,7 +9,7 @@ agent = getDDPGAgent(numObs, numAct, env);
 %% 6
 global numSteps;
 numSteps = 1;
-maxepisodes = 5000;
+maxepisodes = 10000;
 maxsteps = ceil(LoggedSignals.Tf/LoggedSignals.Ts);
 trainOpts = rlTrainingOptions(...
     'MaxEpisodes',maxepisodes,...

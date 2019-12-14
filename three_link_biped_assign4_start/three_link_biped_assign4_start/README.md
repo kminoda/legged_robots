@@ -9,3 +9,5 @@ You can also analyze the solution with the following command.
 
 Agent can be trained from scratch by the following command. Note that this may take a long time to converge.
 > \>\> train_rl  
+
+For the further description about the file structure for reinforcement learning, please take a look at the report. 

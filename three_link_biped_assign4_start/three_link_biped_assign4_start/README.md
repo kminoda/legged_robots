@@ -1,0 +1,12 @@
+# How to run reinforcement learning algorithm.
+In order to run the simulation with the trained model, run the following command. Make sure you add the path to "reinforcement_learning" folder.
+> \>\> load('saved_model/Agent_xx')   
+> \>\> sln_rl = main_rl(saved_agent)  
+
+You can also analyze the solution with the following command.  
+> \>\> analyze_rl(sln_rl)  
+
+Agent can be trained from scratch by the following command. Note that this may take a long time to converge.
+> \>\> train_rl  
+
+For the further description about the file structure for reinforcement learning, please take a look at the report. 
